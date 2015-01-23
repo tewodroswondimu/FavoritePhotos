@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6724" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -19,31 +20,25 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vDb-h3-yXz">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="VcX-0P-t53">
-                                    <size key="itemSize" width="309" height="570"/>
+                                    <size key="itemSize" width="320" height="570"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="InstagramPhotoCell" id="hhY-Lu-R3z" customClass="InstagramCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" reuseIdentifier="InstagramPhotoCell" id="hhY-Lu-R3z" customClass="InstagramCollectionViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="309" height="570"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="570"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GOZ-ZN-0zf">
-                                                    <rect key="frame" x="0.0" y="0.0" width="309" height="570"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GOZ-ZN-0zf">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="570"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="GOZ-ZN-0zf" secondAttribute="trailing" id="KCZ-uM-7In"/>
-                                            <constraint firstItem="GOZ-ZN-0zf" firstAttribute="leading" secondItem="hhY-Lu-R3z" secondAttribute="leading" id="bYs-TW-9sQ"/>
-                                            <constraint firstItem="GOZ-ZN-0zf" firstAttribute="top" secondItem="hhY-Lu-R3z" secondAttribute="top" id="iJJ-Mu-fuP"/>
-                                            <constraint firstAttribute="bottom" secondItem="GOZ-ZN-0zf" secondAttribute="bottom" id="t5v-nc-ooP"/>
-                                        </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="GOZ-ZN-0zf" id="jd9-eB-qBO"/>
                                         </connections>
@@ -54,17 +49,31 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="Rcs-QH-4vN"/>
                                 </connections>
                             </collectionView>
+                            <searchBar contentMode="redraw" placeholder="Search for Images" translatesAutoresizingMaskIntoConstraints="NO" id="JM8-pZ-skD">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="FyD-cr-aNM">
+                                <rect key="frame" x="142" y="266" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerY" secondItem="FyD-cr-aNM" secondAttribute="centerY" id="5cB-St-NqO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="JM8-pZ-skD" secondAttribute="trailing" constant="-16" id="AR4-SD-tGs"/>
                             <constraint firstAttribute="trailing" secondItem="vDb-h3-yXz" secondAttribute="trailing" id="Bmm-rU-5fZ"/>
                             <constraint firstItem="vDb-h3-yXz" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="HBP-00-9yj"/>
                             <constraint firstItem="vDb-h3-yXz" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Rr8-LT-ueB"/>
+                            <constraint firstItem="JM8-pZ-skD" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="Z6q-Ey-ZIL"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="vDb-h3-yXz" secondAttribute="bottom" id="bHz-Rh-NZR"/>
+                            <constraint firstItem="JM8-pZ-skD" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="fcx-3E-EXW"/>
+                            <constraint firstAttribute="centerX" secondItem="FyD-cr-aNM" secondAttribute="centerX" id="utR-pd-1pi"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="instagramPhotosCollectionView" destination="vDb-h3-yXz" id="8ON-kE-ffm"/>
+                        <outlet property="searchBar" destination="JM8-pZ-skD" id="jo7-pE-bXK"/>
+                        <outlet property="spinner" destination="FyD-cr-aNM" id="dG4-Ok-s8I"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

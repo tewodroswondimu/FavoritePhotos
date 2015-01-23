@@ -10,8 +10,11 @@
 #import "InstagramCollectionViewCell.h"
 #import "InstagramPhoto.h"
 
-@interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface ViewController () <UICollectionViewDataSource, UISearchBarDelegate, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *instagramPhotosCollectionView;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+
 @property NSMutableArray *instagramPhotos;
 @property NSMutableArray *instagramImages;
 
@@ -28,6 +31,10 @@
     self.instagramPhotos = [NSMutableArray new];
     self.instagramImages = [NSMutableArray new];
     self.instagramPhotosCollectionView.delegate = self;
+    self.searchBar.delegate = self;
+
+    self.spinner.hidden = NO;
+    [self.spinner startAnimating];
 
     NSString *url = [NSString stringWithFormat:@"https://api.instagram.com/v1/media/popular?client_id=%@", self.clientID];
     [self getInstagramPhotoFromJSONURLString:url];
@@ -36,6 +43,7 @@
 - (void)getInstagramPhotoFromJSONURLString:(NSString *)url
 {
     [self.instagramPhotos removeAllObjects];
+    [self.instagramImages removeAllObjects];
 
     // Create a url from the string
     NSURL *jsonURL = [NSURL URLWithString:url];
@@ -72,9 +80,11 @@
             [self.instagramPhotos addObject:instagramPhoto];
             [self.instagramImages addObject:instagramPhoto.standardImage];
             NSLog(@"%lu", self.instagramImages.count);
-            [self.instagramPhotosCollectionView reloadData];
         }
 
+        [self.instagramPhotosCollectionView reloadData];
+        [self.spinner stopAnimating];
+        self.spinner.hidden = YES;
         // Make an annotation for every bus stop
 //        for (InstagramPhoto *instagramPhoto in self.instagramPhotos) {
 //            BusStopAnnotation *annotation = [BusStopAnnotation new];
@@ -89,12 +99,35 @@
     }];
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self.searchBar resignFirstResponder];
+
+    // scrolls the collection view to the top
+    [self.instagramPhotosCollectionView setContentOffset:CGPointZero animated:YES];
+
+    self.spinner.hidden = NO;
+    [self.spinner startAnimating];
+
+    // Find instagram objects using the search text
+    [self getInstagramPhotosFromSearch:self.searchBar.text];
+}
+
+- (void)getInstagramPhotosFromSearch:(NSString *)searchString
+{
+    NSString *search = [NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=%@", searchString, self.clientID];
+    [self getInstagramPhotoFromJSONURLString:search];
+}
+
 #pragma mark COLLECTION VIEW
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     InstagramCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"InstagramPhotoCell" forIndexPath:indexPath];;
-    cell.imageView.image = [self.instagramImages objectAtIndex:indexPath.row];
+    if (self.instagramImages.count > 0) {
+        UIImage *image = [self.instagramImages objectAtIndex:indexPath.row];
+        cell.imageView.image = image;
+    }
     return cell;
 }
 
